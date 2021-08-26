@@ -1,6 +1,8 @@
 ﻿using FilmesAPI.Data;
+using FilmesAPI.Data.Dtos;
 using FilmesAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 
 namespace FilmesAPI.Controllers
@@ -17,8 +19,16 @@ namespace FilmesAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult AdicionarFilme([FromBody] Filme filme)
+        public IActionResult AdicionarFilme([FromBody] CreateFilmeDto filmeDto)
         {
+            Filme filme = new Filme()
+            {
+                Titulo = filmeDto.Titulo,
+                Genero = filmeDto.Genero,
+                Diretor = filmeDto.Diretor,
+                Duracao = filmeDto.Duracao
+            };
+
             _context.Add(filme);
             _context.SaveChanges();
 
@@ -38,14 +48,24 @@ namespace FilmesAPI.Controllers
 
             if (filme != null)
             {
-                return Ok(filme);
+                ReadFilmeDto filmeDto = new ReadFilmeDto()
+                {
+                    Id = filme.Id,
+                    Titulo = filme.Titulo,
+                    Diretor = filme.Diretor,
+                    Genero = filme.Genero,
+                    Duracao = filme.Duracao,
+                    DataConsulta = DateTime.Now
+                };
+
+                return Ok(filmeDto);
             }
 
             return NotFound();
         }
 
         [HttpPut("{id}")]
-        public IActionResult AtualizaFilme(int id, [FromBody] Filme filmeAtualizado)
+        public IActionResult AtualizaFilme(int id, [FromBody] ReadFilmeDto filmeAtualizado)
         {
             Filme filme = _context.Filmes.FirstOrDefault(x => x.Id == id);
 
