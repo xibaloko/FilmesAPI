@@ -19,6 +19,7 @@ namespace FilmesAPI.Models
         public string Genero { get; set; }
         [Range(1, 200, ErrorMessage = "Número mínimo de 1 e máximo de 200")]
         public int Duracao { get; set; }
+        public int ClassificacaoEtaria { get; set; }
         [JsonIgnore]
         public virtual List<Sessao> Sessoes { get; set; }
     }

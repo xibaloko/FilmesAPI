@@ -13,6 +13,7 @@ namespace FilmesAPI.Data.Dtos.FilmeDto
         [StringLength(100, ErrorMessage = "Máximo de 100 caracteres")]
         public string Genero { get; set; }
         [Range(1, 200, ErrorMessage = "Número mínimo de 1 e máximo de 200")]
+        public int ClassificacaoEtaria { get; set; }
         public int Duracao { get; set; }
     }
 }
